@@ -27,3 +27,19 @@ resource "aws_lb_listener" "default" {
   }
 }
 
+
+resource "aws_lb_listener_rule" "default" {
+  listener_arn = aws_lb_listener.default.arn
+  priority     = 100
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.default.arn
+  }
+
+  condition {
+    host_header {
+      values = ["petclinic.wahidit.live"]
+    }
+  }
+}
